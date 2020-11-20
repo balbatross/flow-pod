@@ -15,7 +15,13 @@ app.use(bodyParser.json())
 
 
 async function initIPFS(ipfs){
-  let podDir = await ipfs.files.stat('/pod')
+  let podDir;
+  try{
+  podDir = await ipfs.files.stat('/pod')
+  }catch(e){
+
+  }
+
   if(podDir.type != 'directory'){
     await ipfs.files.mkdir('/pod')
     await ipfs.files.mkdir('/pod/flows')
