@@ -7,13 +7,14 @@ module.exports = (ipfs) => {
     res.send({msg: 'Pod Home'})
   })
 
-  router.get('/info', (req, res) => {
+  router.get('/info', async (req, res) => {
     let id = await ipfs.id()
     let swarm = await ipfs.swarm.peers()
     let info = {
       id: id.id,
       swarm
     }
+    res.send(info)
   })
 
   router.route('/flows')
