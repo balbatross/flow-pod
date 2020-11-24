@@ -1,14 +1,27 @@
+//MongoDB
 var express = require('express')
+const mongoose = require('mongoose')
+const { MongodbPersistence } = require('y-mongodb')
+
+//HTTP
 var app = express()
 var bodyParser = require('body-parser')
 var cors = require('cors')
+const server = require('http').createServer(app)
 
+const WebSocket = require('ws')
+const utils = require('y-websocket/bin/utils.js')
 var wrtc = require('wrtc')
 const WS = require('libp2p-websockets')
 var WStar = require('libp2p-webrtc-star')
 
+const Y = require('yjs')
 var IPFS = require('ipfs')
 const routes = require('./src/routes')
+
+const MONGODB_URI = "mongodb://localhost/micro-actions";
+const collection = 'yjs-transactions';
+const ldb = new MongodbPersistence(MONGODB_URI, collection)
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -57,26 +70,45 @@ async function main(){
       }
     }
   })
+
   await initIPFS(ipfs) 
-/*  await ipfs.files.mkdir('/pod')
-  await ipfs.files.mkdir('/pod/flows')*/
+
+
+  const wss = new WebSocket.Server({ noServer: true})
+  wss.on('connection', utils.setupWSConnection);
+
+  server.on('upgrade', (request, socket, head) => {
+    const handleAuth = ws => {
+      ws.emit('connection', ws, request)
+    }
+    wss.handleUpgrade(request, socket, head, handleAuth)
+  })
+
+    /*utils.setPersistence({
+    bindState: async (docName, yDoc) => {
+      
+      const persistedYDoc = await ldb.getYDoc(docName)
+      const newUpdates = Y.encodeStateAsUpdate(yDoc)
+      ldb.storeUpdate(docName, newUpdates)
+      Y.applyUpdate(yDoc, Y.encodeStateAsUpdate(persistedYDoc))
+      yDoc.on('update', async update => {
+        ldb.storeUpdate(docName, update)
+      })
+    },
+    writeState: async (docName, yDoc) => {
+      return new Promise(resolve => {
+          resolve();
+      })  
+    }
+  })*/
+
+  mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+
+
   app.use(routes(ipfs))
 
-
-/*  const touch = await ipfs.files.write('/my/file', 'ASDSCSAS ASDSA `')
-  const dir = ipfs.files.ls('/my')
-  const file = await ipfs.add({
-    path: 'hello.txt',
-    content: 'Hello World asdasd'
-  })
-  for await (const item of dir){
-      console.log(item)
-  }
-  console.log(await ipfs.files.stat('/my'))
-  let name = await ipfs.name.publish('/ipfs/' + file.cid);/*, (err, res) => {
-console.log(err, res)
-})*/
-  app.listen(8080)
+  
+  server.listen(8080)
 }
 
 main();
