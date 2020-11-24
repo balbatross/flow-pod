@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const eJwt = require('express-jwt')
 
 const multer = require('multer')
-const upload = multer({ dest: '/tmp/uploads/'})
+const upload = multer({ dest: '/data/uploads/'})
 
 const crypto = require('crypto')
 
