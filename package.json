@@ -8,6 +8,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
+    "greenlock-express": "v4",
     "ipfs": "^0.52.1",
     "jsonwebtoken": "^8.5.1",
     "libp2p-webrtc-star": "^0.20.1",
