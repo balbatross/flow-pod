@@ -46,8 +46,17 @@ const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions',
       ydoc.on('update', update => {
         console.log("UPDATE DOC", ydoc.toJSON())
         Y.applyUpdate(ydoc, update)
-        console.log("UPDATE DOC", ydoc.toJSON())
-        console.log(ydoc.getMap('flow-5fc04e6a13928c40433125a9').toJSON())
+
+        for(var k in Object.keys(ydoc.toJSON())){
+          let obj = ydoc.getMap(k).toJSON()
+          let id = k.split('-')[1]
+          let keyStore = k.split('-')[0]
+          switch(keyStore ){
+            case 'flow':
+              ldb.storeBlob('flows', id, obj, 'flow')
+              break;
+          }
+        }
         ldb.storeUpdate(docName, update)
       })
     },
