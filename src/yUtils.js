@@ -31,7 +31,7 @@ let persistence = null
 
 console.log("Persisting documents to mongodb")
 const { MongodbPersistence } = require('y-mongodb');
-const ldb = new MongodbPersistence(process.env.MONGODB_URI, 'micro-actions', 'yjs-transactions')
+const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions', 'yjs-transactions')
 
 
   // @ts-ignore
