@@ -44,10 +44,11 @@ const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions',
       Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc))
 
       ydoc.on('update', update => {
-        console.log("UPDATE DOC", ydoc.toJSON())
+       
         Y.applyUpdate(ydoc, update)
+        let doc = ydoc.toJSON();
 
-        for(var k in Object.keys(ydoc.toJSON())){
+        for(var k in doc){ 
           let obj = ydoc.getMap(k).toJSON()
           let id = k.split('-')[1]
           let keyStore = k.split('-')[0]
