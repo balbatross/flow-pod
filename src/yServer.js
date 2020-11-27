@@ -3,6 +3,7 @@
 /**
  * @type {any}
  */
+const fs = require('fs')
 const WebSocket = require('ws')
 const https = require('https')
 const http = require('http')
