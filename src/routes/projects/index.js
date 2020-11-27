@@ -14,6 +14,7 @@ module.exports = (ipfs) => {
     .post((req, res) => {
       let project = new Project({
         name: req.body.name,
+        briefDescription: req.body.description,
         nick: moniker.choose(),
         owner: req.user.id
       })
@@ -42,22 +43,11 @@ module.exports = (ipfs) => {
     let fileName = `/pod/flows/${flow.id}`
     let result;
   
-    try{
-    result = await ipfs.files.stat(fileName)
-  
-   if(result.cid){
-     await ipfs.files.rm(fileName)
-   }
-  }catch(e){
-
-  }
-    console.log(JSON.stringify(flow))
-     await ipfs.files.write(fileName, JSON.stringify(flow), {create: true})
    
-    result = await ipfs.files.stat(fileName)
+  
     db.collection('flows').updateOne({
       id: flow.id,
-    }, {$set: {name: flow.name, flow: flow.flow, cid: result.cid}}, (err, r) => {
+    }, {$set: {name: flow.name, flow: flow.flow}}, (err, r) => {
     res.send({
       cid: result.cid,
       id: flow.id
