@@ -54,7 +54,9 @@ const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions',
           console.log('Storing', keyStore, id)
           switch(keyStore){
             case 'flow':
-              await ldb.storeBlob('projects', id, obj, 'flow')
+              ldb.storeBlob('projects', id, obj, 'flow').then((r) => {
+                console.log(r)
+              })
               break;
           }
         }
