@@ -12,8 +12,8 @@ const wss = new WebSocket.Server({ noServer: true })
 const setupWSConnection = require('y-websocket/bin/utils.js').setupWSConnection
 
 const options = {
-  key: fs.readFileSync(__dirname + "../greenlock.d/live/api.rainbowkereru.com/privkey.pem"),
-  cert: fs.readFileSync(__dirname + "../greenlock.d/live/api.rainbowkereru.com/cert.pem")
+  key: fs.readFileSync(__dirname + "/../greenlock.d/live/api.rainbowkereru.com/privkey.pem"),
+  cert: fs.readFileSync(__dirname + "/../greenlock.d/live/api.rainbowkereru.com/cert.pem")
 }
 
 const port = process.env.PORT || 1234
