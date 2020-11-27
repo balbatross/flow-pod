@@ -42,6 +42,7 @@ const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions',
       const newUpdates = Y.encodeStateAsUpdate(ydoc)
       ldb.storeUpdate(docName, newUpdates)
       Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc))
+      console.log(ydoc.toJSON())
       ydoc.on('update', update => {
         ldb.storeUpdate(docName, update)
       })
