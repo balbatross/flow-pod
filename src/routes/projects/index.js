@@ -25,7 +25,7 @@ module.exports = (ipfs) => {
       })
     })
     .put((req, res) => {
-      Project.updateOne({id: req.body._id}, {
+      Project.updateOne({_id: req.body._id}, {
         briefDescription: req.body.brief,
         missionStatement: req.body.mission
       }, {omitUndefined: true}, (err) => {
