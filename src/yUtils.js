@@ -51,9 +51,10 @@ const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions',
           let obj = ydoc.getMap(k).toJSON()
           let id = k.split('-')[1]
           let keyStore = k.split('-')[0]
-          switch(keyStore ){
+          console.log('Storing', keyStore, id)
+          switch(keyStore){
             case 'flow':
-              ldb.storeBlob('projects', id, obj, 'flow')
+              await ldb.storeBlob('projects', id, obj, 'flow')
               break;
           }
         }
