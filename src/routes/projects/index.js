@@ -25,7 +25,12 @@ module.exports = (ipfs) => {
       })
     })
     .put((req, res) => {
-
+      Project.updateOne({id: req.body._id}, {
+        briefDescription: req.body.brief,
+        missionStatement: req.body.mission
+      }, {omitUndefined: true}, (err) => {
+        res.send((err) ? {error: err} : {success: true})
+      })
     })
 
   router.route('/public')
