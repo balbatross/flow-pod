@@ -28,6 +28,12 @@ module.exports = (ipfs) => {
 
     })
 
+  router.route('/public')
+    .get((req, res) => {
+      Project.find({public: true}, (err, arr) => {
+        res.send((err) ? { error: err } : arr)
+      })
+    })
 
   router.route('/:id/flows')
     .get(async (req, res) => {
