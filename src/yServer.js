@@ -9,7 +9,7 @@ const https = require('https')
 const http = require('http')
 
 const wss = new WebSocket.Server({ noServer: true })
-const setupWSConnection = require('yUtils.js').setupWSConnection
+const setupWSConnection = require('./yUtils.js').setupWSConnection
 
 const options = {
   key: fs.readFileSync(__dirname + "/../greenlock.d/live/api.rainbowkereru.com/privkey.pem"),
