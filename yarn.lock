@@ -6604,12 +6604,12 @@ y-leveldb@^0.1.0:
     level "^6.0.1"
     lib0 "^0.2.31"
 
-y-mongodb@^0.1.11:
+"y-mongodb@https://github.com/TheTechCompany/y-mongodb":
   version "0.1.11"
-  resolved "https://registry.yarnpkg.com/y-mongodb/-/y-mongodb-0.1.11.tgz#9860ba34d90d2585c473af426a1c3bee81a44cf8"
-  integrity sha512-wkmxSD17WM4YIlY4eViT/Hee/v/oogXacEeRs8QgwyPljIlOsW60GVg9LT+6wjDEa5B/syLdB9dkAD382JKATw==
+  resolved "https://github.com/TheTechCompany/y-mongodb#f22de1552badd77a9dea8c7cae160236a5e42ffa"
   dependencies:
     lib0 "^0.2.32"
+    mongodb "^3.6.3"
     mongoist "^2.5.2"
     mongojs "^3.1.0"
 
