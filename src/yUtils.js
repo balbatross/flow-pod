@@ -53,7 +53,7 @@ const ldb = new MongodbPersistence('mongodb://localhost:27017', 'micro-actions',
           let keyStore = k.split('-')[0]
           switch(keyStore ){
             case 'flow':
-              ldb.storeBlob('flows', id, obj, 'flow')
+              ldb.storeBlob('projects', id, obj, 'flow')
               break;
           }
         }
