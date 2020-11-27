@@ -14,6 +14,8 @@ var wrtc = require('wrtc')
 const WS = require('libp2p-websockets')
 var WStar = require('libp2p-webrtc-star')
 
+const YServer = require('./src/yServer')(1234)
+
 var IPFS = require('ipfs')
 const routes = require('./src/routes')
 

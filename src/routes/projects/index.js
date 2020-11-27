@@ -16,6 +16,7 @@ module.exports = (ipfs) => {
         name: req.body.name,
         briefDescription: req.body.description,
         nick: moniker.choose(),
+        public: req.body.public,
         owner: req.user.id
       })
 
