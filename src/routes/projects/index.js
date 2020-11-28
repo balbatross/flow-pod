@@ -71,10 +71,11 @@ module.exports = (ipfs) => {
   router.route('/:id/members/join')
     .post((req, res) => {
       ProjectInvite.findOne({
-        _id: req.body.inviteId
+          project: req.params.id,
+          invited: req.user.id,
       }, (err, invite) => {
         if(!err && invite){
-          Project.findOne({_id: req.params.id}, (err, project) => {
+          Project.findOne({_id: invite.project}, (err, project) => {
             let m = project.members;
             if(!m) m = [];
             m.push(req.user.id)
