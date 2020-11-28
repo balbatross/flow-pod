@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const moniker = require('moniker')
 const uuid = require('uuid')
-const { User, Project, Flow } = require( '../../models')
+const { ProjectInvite, User, Project, Flow } = require( '../../models')
 
 module.exports = (ipfs) => {
 
@@ -33,6 +33,15 @@ module.exports = (ipfs) => {
       })
     })
 
+  router.route('/invites')
+    .get((req, res) => {
+      ProjectInvite.find({
+        invited: req.user.id
+      }).populate('invited').populate('inviter').exec((err, doc) => {
+        res.send((err) ? {error: err} : doc)
+      })
+    })
+
   router.route('/:id/members')
     .get((req, res) => {
       Project.findOne({_id: req.params.id}, (err, project) => {
@@ -44,6 +53,22 @@ module.exports = (ipfs) => {
         members: req.body.members
       }, (err) => {
         res.send((err) ? {error: err}: {success: true})
+      })
+    })
+
+  router.route('/:id/members/invite')
+    .post((req, res) => {
+      let invite = new ProjectInvite({
+        project: req.params.id,
+        ts: new Date().getTime(),
+        message: "Come join my project",
+        invited: req.body.invited,
+        inviter: req.user.id,
+        status: "PENDING"
+      })
+
+      invite.save((err) => {
+        res.send((err) ? {error: err} : {success: true})
       })
     })
 
