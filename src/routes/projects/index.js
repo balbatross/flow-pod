@@ -7,7 +7,7 @@ module.exports = (ipfs) => {
 
   router.route('/')
     .get((req, res) => {
-      Project.find({owner: req.user.id}, (err, arr) => {
+      Project.find().or([{owner: req.user.id}, {members: req.user.id}]).exec((err, arr) => {
         res.send((err) ? {error: err}: arr)
       })
     })
@@ -45,6 +45,14 @@ module.exports = (ipfs) => {
       })
     })
 
+
+  router.route('/:id')
+    .get((req, res) => {
+      Project.findOne({_id: req.params.id}, (err, project) => {
+        res.send((err) ? {error: err} : project)
+      })
+    })
+
   router.route('/:id/members')
     .get((req, res) => {
       Project.findOne({_id: req.params.id}, (err, project) => {
@@ -56,6 +64,25 @@ module.exports = (ipfs) => {
         members: req.body.members
       }, (err) => {
         res.send((err) ? {error: err}: {success: true})
+      })
+    })
+
+
+  router.route('/:id/members/join')
+    .post((req, res) => {
+      ProjectInvite.findOne({
+        _id: req.body.inviteId
+      }, (err, invite) => {
+        if(!err && invite){
+          Project.findOne({_id: req.params.id}, (err, project) => {
+            let m = project.members;
+            if(!m) m = [];
+            m.push(req.user.id)
+            Project.updateOne({_id: req.params.id}, {members: m}, (err) => {
+              res.send((err) ? {error: err} : {success: true})
+            })
+          })
+        }
       })
     })
 
