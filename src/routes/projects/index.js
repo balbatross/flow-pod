@@ -7,7 +7,10 @@ module.exports = (ipfs) => {
 
   router.route('/')
     .get((req, res) => {
-      Project.find().or([{owner: req.user.id}, {members: req.user.id}]).populate('members').exec((err, arr) => {
+      Project.find().or([{owner: req.user.id}, {members: req.user.id}])
+        .populate('members')
+        .populate('owner')
+        .exec((err, arr) => {
         res.send((err) ? {error: err}: arr)
       })
     })
