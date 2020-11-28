@@ -85,7 +85,7 @@ module.exports = (ipfs) => {
             members: [
               ...result[0].members,
               ...result[1].map((x) => ({
-                ...x.invited,
+                ...x.invited._doc,
                 status: "pending"
               }))
             ]
