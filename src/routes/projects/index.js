@@ -33,6 +33,12 @@ module.exports = (ipfs) => {
       })
     })
 
+  router.route('/public')
+    .get((req, res) => {
+      Project.find({public: true}, (err, arr) => {
+        res.send((err) ? { error: err } : arr)
+      })
+    })
   router.route('/invites')
     .get((req, res) => {
       ProjectInvite.find({
@@ -113,12 +119,6 @@ module.exports = (ipfs) => {
     })
   })
 
-  router.route('/public')
-    .get((req, res) => {
-      Project.find({public: true}, (err, arr) => {
-        res.send((err) ? { error: err } : arr)
-      })
-    })
 
   router.route('/:id/flows')
     .get(async (req, res) => {
