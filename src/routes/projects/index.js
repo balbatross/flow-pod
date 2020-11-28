@@ -83,9 +83,9 @@ module.exports = (ipfs) => {
         (err, result) => {
           res.send((err) ? {error: err} : {
             members: [
-              ...result[0].members.toJSON(),
+              ...result[0].members,
               ...result[1].map((x) => ({
-                ...x.invited.toJSON(),
+                ...x.invited,
                 status: "pending"
               }))
             ]
