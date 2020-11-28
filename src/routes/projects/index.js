@@ -65,9 +65,32 @@ module.exports = (ipfs) => {
 
   router.route('/:id/members')
     .get((req, res) => {
+      async.parallel([
+        (cb) => {
       Project.findOne({_id: req.params.id}, (err, project) => {
-        res.send((err) ? {error: err} : project)
+        cb(err, projects)
       })
+        }, 
+        (cb) => {
+         ProjectInvite.find({project: req.params.id})
+        .populate('invited')
+        .populate('inviter')
+        .exec((err, invites) => {
+          cb(err, invites)
+        })
+      }],
+        (err, result) => {
+          res.send((err) ? {error: err} : {
+            members: [
+              ...project.members,
+              ...invites.map((x) => ({
+                ...x.invited,
+                status: "pending"
+              }))
+            ]
+          })
+        })
+
     })
     .post((req, res) => {
       Project.updateOne({_id: req.params.id, owner: req.user.id}, {
