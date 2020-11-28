@@ -62,6 +62,7 @@ module.exports = (ipfs) => {
       })
     })
 
+
   router.route('/:id/members')
     .get((req, res) => {
       Project.findOne({_id: req.params.id}, (err, project) => {
@@ -110,7 +111,14 @@ module.exports = (ipfs) => {
       invite.save((err) => {
         res.send((err) ? {error: err} : {success: true})
       })
+    }).get((req, res) => {
+      ProjectInvite.find({project: req.params.id})
+        .populate('invited')
+        .populate('inviter')
+        .exec((err, invites) => {
+        res.send((err) ? {error: err} : invites)
     })
+  })
 
   router.get('/:id/members/suggestions', (req, res) => {
     User.find({}).exec((err, arr) => {
