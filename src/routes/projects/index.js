@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const moniker = require('moniker')
+const async = require('async')
 const uuid = require('uuid')
 const { ProjectInvite, User, Project, Flow } = require( '../../models')
 
@@ -82,8 +83,8 @@ module.exports = (ipfs) => {
         (err, result) => {
           res.send((err) ? {error: err} : {
             members: [
-              ...project.members,
-              ...invites.map((x) => ({
+              ...result[0].map((x) => x.members),
+              ...result[1].map((x) => ({
                 ...x.invited,
                 status: "pending"
               }))
