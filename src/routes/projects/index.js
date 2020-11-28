@@ -69,7 +69,7 @@ module.exports = (ipfs) => {
       async.parallel([
         (cb) => {
       Project.findOne({_id: req.params.id}, (err, project) => {
-        cb(err, projects)
+        cb(err, project)
       })
         }, 
         (cb) => {
@@ -83,7 +83,7 @@ module.exports = (ipfs) => {
         (err, result) => {
           res.send((err) ? {error: err} : {
             members: [
-              ...result[0].map((x) => x.members),
+              ...result[0].members,
               ...result[1].map((x) => ({
                 ...x.invited,
                 status: "pending"

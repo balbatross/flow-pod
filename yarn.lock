@@ -6611,7 +6611,7 @@ y-leveldb@^0.1.0:
 
 "y-mongodb@https://github.com/TheTechCompany/y-mongodb":
   version "0.1.11"
-  resolved "https://github.com/TheTechCompany/y-mongodb#f22de1552badd77a9dea8c7cae160236a5e42ffa"
+  resolved "https://github.com/TheTechCompany/y-mongodb#ff16f3ef387edcae9270de8b065250986a9faeee"
   dependencies:
     lib0 "^0.2.32"
     mongodb "^3.6.3"
