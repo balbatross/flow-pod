@@ -7,6 +7,7 @@ const Project = mongoose.model('Project', {
   briefDescription: String,
   public: Boolean,
   nick: String,
+  members: [{type: Schema.Types.ObjectId, ref: 'User'}],
   owner: { type: Schema.Types.ObjectId, ref: 'User' }
 })
 
