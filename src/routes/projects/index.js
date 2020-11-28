@@ -68,7 +68,7 @@ module.exports = (ipfs) => {
     .get((req, res) => {
       async.parallel([
         (cb) => {
-      Project.findOne({_id: req.params.id}, (err, project) => {
+      Project.findOne({_id: req.params.id}).populate('owner').populate('members').exec((err, project) => {
         cb(err, project)
       })
         }, 
@@ -83,9 +83,9 @@ module.exports = (ipfs) => {
         (err, result) => {
           res.send((err) ? {error: err} : {
             members: [
-              ...result[0].members,
+              ...result[0].members.toJSON(),
               ...result[1].map((x) => ({
-                ...x.invited,
+                ...x.invited.toJSON(),
                 status: "pending"
               }))
             ]
