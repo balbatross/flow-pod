@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const moniker = require('moniker')
 const uuid = require('uuid')
-const { Project, Flow } = require( '../../models')
+const { User, Project, Flow } = require( '../../models')
 
 module.exports = (ipfs) => {
 
@@ -32,6 +32,30 @@ module.exports = (ipfs) => {
         res.send((err) ? {error: err} : {success: true})
       })
     })
+
+  router.route('/:id/members')
+    .get((req, res) => {
+      Project.findOne({_id: req.params.id}, (err, project) => {
+        res.send((err) ? {error: err} : project)
+      })
+    })
+    .post((req, res) => {
+      Project.updateOne({_id: req.params.id, owner: req.user.id}, {
+        members: req.body.members
+      }, (err) => {
+        res.send((err) ? {error: err}: {success: true})
+      })
+    })
+
+  router.get('/:id/members/suggestions', (req, res) => {
+    User.find({}).exec((err, arr) => {
+      res.send((err) ? {error: err} : arr.map((x) => ({
+        username: x.username,
+        name: x.name,
+        id: x._id
+      })))
+    })
+  })
 
   router.route('/public')
     .get((req, res) => {
