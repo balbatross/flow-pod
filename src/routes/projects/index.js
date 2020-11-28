@@ -37,7 +37,10 @@ module.exports = (ipfs) => {
     .get((req, res) => {
       ProjectInvite.find({
         invited: req.user.id
-      }).populate('invited').populate('inviter').exec((err, doc) => {
+      })
+      .populate('project')  
+      .populate('invited')
+      .populate('inviter').exec((err, doc) => {
         res.send((err) ? {error: err} : doc)
       })
     })
