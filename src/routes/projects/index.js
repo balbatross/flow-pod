@@ -112,12 +112,18 @@ module.exports = (ipfs) => {
           Project.findOne({_id: invite.project}, (err, project) => {
             let m = project.members;
             if(!m) m = [];
+            if(m.indexOf(req.user.id) < 0){
             m.push(req.user.id)
             Project.updateOne({_id: req.params.id}, {members: m}, (err) => {
               ProjectInvite.deleteOne({_id: invite._id}, (err) => {
                 res.send((err) ? {error: err} : {success: true})
               })
             })
+            }else{ 
+              ProjectInvite.deleteOne({_id: invite._id}, (err) => {
+                res.send((err) ? {error: err} : {success: true})
+              })
+            }
           })
         }
       })
