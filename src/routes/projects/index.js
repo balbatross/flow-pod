@@ -114,7 +114,9 @@ module.exports = (ipfs) => {
             if(!m) m = [];
             m.push(req.user.id)
             Project.updateOne({_id: req.params.id}, {members: m}, (err) => {
-              res.send((err) ? {error: err} : {success: true})
+              ProjectInvite.deleteOne({_id: invite._id}, (err) => {
+                res.send((err) ? {error: err} : {success: true})
+              })
             })
           })
         }
