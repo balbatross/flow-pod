@@ -18,6 +18,13 @@ module.exports = (ipfs, upload) => {
 
     })
 
+  router.route('/stock/:id')
+    .delete((req, res) => {
+      MarketItem.removeOne({_id: req.params.id, owner: req.user.id}, (err) => {
+        res.send((err) ? {error: err} :{success: true})
+      })
+    })
+
   //Update stock information
   router.route('/stock')
     .get((req, res) => {
