@@ -62,6 +62,11 @@ module.exports = (ipfs) => {
         res.send((err) ? {error: err} : project)
       })
     })
+    .delete((req, res) => {
+      Project.removeOne({_id: req.params.id, owner: req.user.id}, (err) => {
+        res.send((err) ? {error: err} : {success: true})
+      })
+    })
 
 
   router.route('/:id/members')
