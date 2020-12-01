@@ -63,7 +63,7 @@ module.exports = (ipfs) => {
       })
     })
     .delete((req, res) => {
-      Project.removeOne({_id: req.params.id, owner: req.user.id}, (err) => {
+      Project.deleteOne({_id: req.params.id, owner: req.user.id}, (err) => {
         res.send((err) ? {error: err} : {success: true})
       })
     })
