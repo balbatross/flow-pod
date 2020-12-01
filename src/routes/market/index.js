@@ -20,7 +20,7 @@ module.exports = (ipfs, upload) => {
 
   router.route('/stock/:id')
     .delete((req, res) => {
-      MarketItem.removeOne({_id: req.params.id, owner: req.user.id}, (err) => {
+      MarketItem.deleteOne({_id: req.params.id, owner: req.user.id}, (err) => {
         res.send((err) ? {error: err} :{success: true})
       })
     })
