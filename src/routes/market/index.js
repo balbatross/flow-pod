@@ -26,7 +26,7 @@ module.exports = (ipfs, upload) => {
     })
     .put(upload.array('photos', 12), (req, res) => {
       let photoFiles = req.files || [];
-      let images = req.body.images
+      let images = JSON.parse(req.body.images)
       console.log("Update market item", req.body, req.files)
 
       let obj = {
