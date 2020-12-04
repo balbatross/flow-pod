@@ -31,7 +31,7 @@ module.exports = (ipfs, upload) => {
         description: req.body.description,
         price: req.body.price,
         tags: req.body.tags,
-        photos: req.files && req.files.length > 0 && req.files.map((x) => x.path.split(`/data/uploads/`)[1])
+        photos: req.files && req.files.length > 0 && req.files.map(x => x.filename)
       }, {omitUndefined: true}, (err) => {
         res.send((err) ? {error: err} : {success: true})
       })
@@ -50,7 +50,7 @@ module.exports = (ipfs, upload) => {
         name: req.body.name,
         description: req.body.description,
         tags: req.body.tags,
-        photos: req.files.map((x) => x.path.split(`/data/uploads/`)[1]),
+        photos: req.files.map(x => x.filename),
         price: req.body.price
       })
 
