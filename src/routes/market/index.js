@@ -31,7 +31,11 @@ module.exports = (ipfs, upload) => {
         description: req.body.description,
         price: req.body.price,
         tags: req.body.tags,
-        photos: req.files && req.files.length > 0 && req.files.map(x => x.filename)
+        $push: {
+          photos: { 
+            $each: req.files && req.files.length > 0 && req.files.map(x => x.filename)
+          }
+        }
       }, {omitUndefined: true}, (err) => {
         res.send((err) ? {error: err} : {success: true})
       })
