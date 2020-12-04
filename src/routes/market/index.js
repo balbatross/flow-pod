@@ -25,6 +25,7 @@ module.exports = (ipfs, upload) => {
       })
     })
     .put((req, res) => {
+      console.log("Update market item", req.body)
       MarketItem.updateOne({_id: req.params.id, owner: req.user.id}, {
         name: req.body.name,
         description: req.body.description,
