@@ -24,6 +24,15 @@ module.exports = (ipfs, upload) => {
         res.send((err) ? {error: err} :{success: true})
       })
     })
+    .put((req, res) => {
+      MarketItem.updateOne({_id: req.params.id, owner: req.user.id}, {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price 
+      }, {omitUndefined: true}, (err) => {
+        res.send((err) ? {error: err} : {success: true})
+      })
+    })
 
   //Update stock information
   router.route('/stock')
