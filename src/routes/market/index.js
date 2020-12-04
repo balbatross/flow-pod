@@ -28,14 +28,19 @@ module.exports = (ipfs, upload) => {
       let photoFiles = req.files || [];
       let images = req.body.images
       console.log("Update market item", req.body, req.files)
-      MarketItem.updateOne({_id: req.params.id, owner: req.user.id}, {
+
+      let obj = {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         tags: req.body.tags,
         photos: images.concat(photoFiles.map(x => x.filename)),
-      }, {omitUndefined: true}, (err, r) => {
-        res.send((err) ? {error: err} : {success: true, result: r})
+      }
+
+      MarketItem.updateOne({_id: req.params.id, owner: req.user.id}, 
+        obj,
+        {omitUndefined: true}, (err, r) => {
+        res.send((err) ? {error: err} : {success: true, result: obj})
       })
     })
 
