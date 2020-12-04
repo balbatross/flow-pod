@@ -65,7 +65,7 @@ module.exports = (ipfs, upload) => {
 
   router.route('/media/:id')
     .get((req, res) => {
-      res.sendFile(`/data/upload/${req.params.id}`)
+      res.sendFile(`/data/uploads/${req.params.id}`)
     })
   router.route('/:id/media')
     .get((req, res) => {
