@@ -24,12 +24,14 @@ module.exports = (ipfs, upload) => {
         res.send((err) ? {error: err} :{success: true})
       })
     })
-    .put((req, res) => {
+    .put(upload.array('photos', 12), (req, res) => {
       console.log("Update market item", req.body)
       MarketItem.updateOne({_id: req.params.id, owner: req.user.id}, {
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price 
+        price: req.body.price,
+        tags: req.body.tags,
+        photos: req.files.map((x) => x.path.split(`/data/uploads/`)[1])
       }, {omitUndefined: true}, (err) => {
         res.send((err) ? {error: err} : {success: true})
       })
@@ -48,7 +50,7 @@ module.exports = (ipfs, upload) => {
         name: req.body.name,
         description: req.body.description,
         tags: req.body.tags,
-        photos: req.files.map((x) => x.path),
+        photos: req.files.map((x) => x.path.split(`/data/uploads/`)[1]),
         price: req.body.price
       })
 
@@ -62,6 +64,10 @@ module.exports = (ipfs, upload) => {
     })
 
   router.route('/media/:id')
+    .get((req, res) => {
+      res.sendFile(`/data/upload/${req.params.id}`)
+    })
+  router.route('/:id/media')
     .get((req, res) => {
       MarketItem.find((err, stocks) => {
           let stock = stocks.filter((a) => a._id == req.params.id)[0]
