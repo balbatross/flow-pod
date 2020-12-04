@@ -33,7 +33,7 @@ module.exports = (ipfs, upload) => {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
-        tags: req.body.tags,
+        tags: JSON.parse(req.body.tags),
         photos: images.concat(photoFiles.map(x => x.filename)),
       }
 
