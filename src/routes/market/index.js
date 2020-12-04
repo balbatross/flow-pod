@@ -25,13 +25,13 @@ module.exports = (ipfs, upload) => {
       })
     })
     .put(upload.array('photos', 12), (req, res) => {
-      console.log("Update market item", req.body)
+      console.log("Update market item", req.body, req.files)
       MarketItem.updateOne({_id: req.params.id, owner: req.user.id}, {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         tags: req.body.tags,
-        photos: req.files.map((x) => x.path.split(`/data/uploads/`)[1])
+        photos: req.files && req.files.length > 0 && req.files.map((x) => x.path.split(`/data/uploads/`)[1])
       }, {omitUndefined: true}, (err) => {
         res.send((err) ? {error: err} : {success: true})
       })
